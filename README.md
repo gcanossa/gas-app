@@ -117,3 +117,27 @@ path/to/file.html
   <?= val ?>
 </p>
 ```
+
+## Vite plugin
+
+The library contains also a vite function plugin **gasApp** which allows to create simple html pages to be renderd by Google Apps Script.
+
+The plugin explores the _input_ path and expect a structure like this:
+
+```
+/<input>
+  /ui
+    global.css
+    app.js
+    utils.js
+    /page1
+      view.html
+      script.js
+      style.css
+    /page2
+      view.html
+      script.js
+      style.css
+```
+
+Basically a set of .html, .css and .js inside a **ui** folder. The plugin reproduce the same hierarchy in the _destination_ folder wrapping .js files in \<script\>\</script\> tags and .css in \<style\>\</style\> tags and renaming the files in .js.html and .css.html. The script searches the .html files for \<script\> and \<style\> tags with the attribute **x-gas-include**, if found rewrites the tag using the scriptlet \<?!= gas_core_include(...) ?> effectively inlining the resource. This allows a comfortable local development inlcuding the .js and .css files from the filesystem and an organized clasp folder keeping the script and style resources separated like in local development.

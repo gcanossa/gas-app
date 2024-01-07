@@ -15,7 +15,10 @@ export function gas_core_invoke(name: string, ...params: any[]): any {
   return __GAS_CORE__[name].apply(null, params);
 }
 
-export function gas_include(filename: string, params?: { [key: string]: any }) {
+export function gas_core_include(
+  filename: string,
+  params?: { [key: string]: any }
+) {
   const tpl = HtmlService.createTemplateFromFile(filename);
 
   if (!!params) Object.keys(params).map((key) => (tpl[key] = params[key]));

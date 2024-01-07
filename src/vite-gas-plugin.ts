@@ -23,7 +23,7 @@ function transform(content: Buffer, filename: string) {
       ?.filter((p) => /x-gas-include/.test(p))
       .forEach((p) => {
         const res = /(\.\.?\/)+([^'"]+)(['"]?)/i.exec(p)![2];
-        code = code.replace(p, `<?!= gas_include('${res}') ?>\n`);
+        code = code.replace(p, `<?!= gas_core_include('${res}') ?>\n`);
       });
     scripts
       ?.filter((p) => !/x-gas-include/.test(p))
@@ -35,7 +35,7 @@ function transform(content: Buffer, filename: string) {
       ?.filter((p) => /x-gas-include/.test(p))
       .forEach((p) => {
         const res = /(\.\.?\/)+([^'"]+)(['"]?)/i.exec(p)![2];
-        code = code.replace(p, `<?!= gas_include('${res}') ?>\n`);
+        code = code.replace(p, `<?!= gas_core_include('${res}') ?>\n`);
       });
     links
       ?.filter((p) => !/x-gas-include/.test(p))
