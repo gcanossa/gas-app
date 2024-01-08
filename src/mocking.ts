@@ -57,14 +57,14 @@ export function initMocks<
 ) {
   mocks = {
     ...mocks,
-    ...({
+    ...{
       gas_core_invoke: (fnName: string, ...params: any[]) => {
         if (fnName in coreMocks! === false)
           throw new Error(`Unknown function ${fnName}`);
 
         return coreMocks![fnName].apply(null, params);
       },
-    } ?? {}),
+    },
   };
 
   window.google = {
