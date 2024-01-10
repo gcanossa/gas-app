@@ -3,12 +3,29 @@
   "version": "2.0.0",
   "description": "Google Apps Script application building framework",
   "exports": {
-    ".": "./dist/client.mjs",
-    "./client": "./dist/client.mjs",
-    "./server": "./dist/server.mjs",
-    "./mocking": "./dist/mocking.mjs",
-    "./vite-gas-plugin": "./dist/vite-gas-plugin.mjs"
+    ".": {
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "default": "./dist/server.js"
+    },
+    "./mocking": {
+      "types": "./dist/mocking.d.ts",
+      "default": "./dist/mocking.js"
+    },
+    "./vite-gas-plugin": {
+      "types": "./dist/vite-gas-plugin.d.ts",
+      "default": "./dist/vite-gas-plugin.js"
+    },
+    "./package.json": "./package.json"
   },
+  "type": "module",
   "scripts": {
     "build": "vite build",
     "test": "vitest run"

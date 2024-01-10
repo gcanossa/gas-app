@@ -14,5 +14,8 @@ export default defineConfig({
       ],
       formats: ["es"],
     },
+    rollupOptions: {
+      external: ["rollup"],
+    },
   },
 });
