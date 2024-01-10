@@ -48,23 +48,26 @@ export type GasClientApiRunMethodsMocks<T extends GasClientApiRunMethods> = {
   [P in keyof T]: (...p: Parameters<T[P]>) => Promise<any>;
 };
 
+export type GasAppsMocks = { [key: string]: GasClientApiRunMethodsMocks<any> };
+
 export function initMocks<
   T extends GasClientApiRunMethods,
-  C extends GasClientApiRunMethods = {}
->(
-  mocks: GasClientApiRunMethodsMocks<T>,
-  coreMocks?: GasClientApiRunMethodsMocks<C>
-) {
+  C extends GasAppsMocks
+>(mocks: GasClientApiRunMethodsMocks<T>, appMocks?: C) {
   mocks = {
     ...mocks,
-    ...{
-      gas_core_invoke: (fnName: string, ...params: any[]) => {
-        if (fnName in coreMocks! === false)
-          throw new Error(`Unknown function ${fnName}`);
+    ...Object.keys(appMocks ?? {}).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: (fnName: string, ...params: any[]) => {
+          if (fnName in appMocks[key]! === false)
+            throw new Error(`Unknown function ${fnName}`);
 
-        return coreMocks![fnName].apply(null, params);
-      },
-    },
+          return appMocks![key][fnName].apply(null, params);
+        },
+      }),
+      {}
+    ),
   };
 
   window.google = {
@@ -175,7 +178,9 @@ export function initMocks<
   } satisfies GoogleClientApi<T>;
 
   return window.google as GoogleClientApi<
-    T & { gas_core_invoke: (name: string, ...params: any[]) => void }
+    T & {
+      [K in keyof C]: (name: string, ...params: any[]) => void;
+    }
   >;
 }
 

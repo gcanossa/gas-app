@@ -40,9 +40,9 @@ export function createBridge<
   });
 }
 
-export function createCoreBridge<
-  T extends GasServerApiRunMethods
->(): GasClientBridge<T> {
+export function createGasAppBridge<T extends GasServerApiRunMethods>(
+  invokeFunctionName: string
+): GasClientBridge<T> {
   const hdl = window.google as GoogleClientApi<T>;
 
   return new Proxy(hdl.script.run, {
@@ -59,9 +59,9 @@ export function createCoreBridge<
           if (isPropWithCtx && params[0] !== null && params[0] !== undefined) {
             prep
               .withUserObject(params[0])
-              ["gas_core_invoke"].apply(null, [prop, ...params.slice(1)]);
+              [invokeFunctionName].apply(null, [prop, ...params.slice(1)]);
           } else {
-            prep["gas_core_invoke"].apply(null, [prop, ...params]);
+            prep[invokeFunctionName].apply(null, [prop, ...params]);
           }
         });
       };

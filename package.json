@@ -1,10 +1,16 @@
 {
   "name": "@gcanossa/gas-app",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Google Apps Script application building framework",
-  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/client.mjs",
+    "./client": "./dist/client.mjs",
+    "./server": "./dist/server.mjs",
+    "./mocking": "./dist/mocking.mjs",
+    "./vite-gas-plugin": "./dist/vite-gas-plugin.mjs"
+  },
   "scripts": {
-    "build": "tsup",
+    "build": "vite build",
     "test": "vitest run"
   },
   "repository": {
@@ -30,8 +36,9 @@
     "@types/google-apps-script": "^1.0.78",
     "@types/node": "^20.10.7",
     "jsdom": "^23.2.0",
-    "tsup": "^8.0.1",
     "typescript": "^5.3.3",
+    "vite": "^5.0.11",
+    "vite-plugin-dts": "^3.7.0",
     "vitest": "^1.1.3"
   },
   "dependencies": {

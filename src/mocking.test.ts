@@ -5,7 +5,7 @@ import {
   GoogleClientApi,
 } from "./types";
 import { GasClientApiRunMethodsMocks, initMocks } from "./mocking";
-import { createBridge, createCoreBridge } from "./client";
+import { createBridge, createGasAppBridge } from "./client";
 
 describe("type inference", () => {
   test("inference check", async () =>
@@ -43,7 +43,9 @@ describe("type inference", () => {
         async display(s: string): Promise<void> {},
       };
 
-      initMocks<typeof serverApi>(mocks, mocksCore);
+      const mk = initMocks<typeof serverApi, { ivk: any }>(mocks, {
+        ivk: mocksCore,
+      });
 
       const hdl = window.google as GoogleClientApi<
         GasServerToClientApiRunMethods<typeof serverApi>
@@ -64,7 +66,7 @@ describe("type inference", () => {
         { text: "hello" },
       ]);
 
-      const coreBridge = createCoreBridge<typeof serverCoreApi>();
+      const coreBridge = createGasAppBridge<typeof serverCoreApi>("ivk");
       expect(await coreBridge.mul(2, 3)).toEqual([6, undefined]);
       expect(await coreBridge.ctx_mul({ text: "hello" }, 2, 3)).toEqual([
         6,
