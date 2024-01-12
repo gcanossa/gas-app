@@ -1,6 +1,6 @@
 {
   "name": "@gcanossa/gas-app",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Google Apps Script application building framework",
   "exports": {
     ".": {
